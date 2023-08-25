@@ -1,4 +1,4 @@
-# finanzas
+# Finanzas personales
 App para gestión de finanzas (créditos y pagos) personales
 
 En principio, creo que yo cifraría los importes de los recibos y créditos, por privacidad. Los administradores del sistema no deberían saber los datos económicos de los usuarios, igual que la clave también se almacenará cifrada. Deberían descifrarse al mostrarse. Estudiar este caso... Voy a marcar con un (¿HIDE?) los campos sensibles de ser cifrados.
