@@ -11,13 +11,13 @@ Por el contrario, los datos económicos se deberían cifrar con otro sistema que
 ## SEGURIDAD ##
 Se autenticará mediante JWT. También tendrá un sencillo sistema de Roles, que en principio solo se usará para saber si el usuario es de tipo **Administrador** o **Usuario**. En caso de que el usuario validado sea de tipo **Administrador**, debería tener acceso a la gestión de usuarios, pero no a las pantallas de gestión de datos financieros. El tipo **Usuario**, por contra, no tendrá acceso a la gestión de usuarios, pero sí a las pantallas de gestión financiera, mostrando solamente los datos que le pertenecen.
 
-## TABLAS:
-------------------
+## TABLAS ##
 - usuarios
   - id (guid)
   - nombre
   - user
-  - pass (cifrada)
+  - pass (hash)
+  - rol (Administrador o Usuario)
   - *... y lo que sea necesario. Lo estudiaremos*
 
 - bancos
@@ -67,10 +67,13 @@ Se autenticará mediante JWT. También tendrá un sencillo sistema de Roles, que
   - fecha_ultimo_pago (nullable)
   - notas	
 	
-## PANTALLAS:
-------------------
-- Menú inicial: Mostrará la pantalla de Estado Actual por defecto
-- Estado Actual (el nombre se podrá revisar): Un encolumnado con:
+## PANTALLAS ##
+- Gestión de usuarios (Administradores): Tabla con todos los usuarios, y su tipo de usuario.
+  *Debería permitir modifiar datos, añadir o eliminar usuarios y administradores. Nunca permitirá eliminar al usuario actual (que es un administrador), aunque sí modificar su nombre y su password.*
+
+- Menú inicial (Usuarios): Mostrará la pantalla de Estado Actual por defecto
+
+- Estado Actual (el nombre se podrá revisar) (Usuarios): Un encolumnado con:
   - Banco
   - Concepto
   - Meses pago (campo meses_entre_pagos)
@@ -83,14 +86,14 @@ Se autenticará mediante JWT. También tendrá un sencillo sistema de Roles, que
 	
   *Esta ventana debería poder mostrar también un "Sumatorio por banco", que es una subtabla dónde se muestra una fila por banco, con el total de recibos por banco, y también el capital pendiente sumado de todos los créditos.*
 	
-- Creditos: Gestión de Créditos. Enlace a "Cuadro de Amortización"
+- Creditos (Usuarios): Gestión de Créditos. Enlace a "Cuadro de Amortización"
 	
-- Cuadro de Amortización: Se mostrará en subventana desde Creditos o en un popup.  
+- Cuadro de Amortización (Usuarios): Se mostrará en subventana desde Creditos o en un popup.  
   *Podría ser de pantalla completa, pero no se podrá llamar de forma independiente, sino desde el crédito. En caso de ser una ventana, debería poder volver al crédito, pero me gusta más la idea de un popup.*
 	
-- Pagos Recurrentes: Gestión de Pagos recurrentes
+- Pagos Recurrentes (Usuarios): Gestión de Pagos recurrentes
 
-- Otras pantallas:
+- Otras pantallas (Usuarios):
   *Estaría bien poder guardar simulaciones para amortizaciones anticipadas de créditos. Por ejemplo, crear una para incluir ciertos créditos seleccionados de la lista, incluyendo aquellos pagos recurrentes que tengan un capital_pendiente (normalmente serán tarjetas de crédito). Esto mostrará una tabla con los datos de solo esos créditos y en el sumatorio se verá el total/mes (para saber lo que dejarás de pagar al mes), y el importe total (para saber el montante que hará falta para cancelarlo, teniendo en cuenta el % sobre el capital pendiente que se aplicacará por amortización total).*
 
   *Por ejemplo, yo tengo guardada una hoja dónde me aparecen los créditos que yo he seleccionado, pero solo de entre los que salen en CIRBE, que son los primeros que me quiero quitar. Tengo otra dónde me salían las cancelaciones de las tarjetas de crédito. Luego puedes hacer otra para ir jugando, como decir "¿cuanto me costaría cancelar este crédito, aquella tarjeta y aquella otra?". Eso lo he usado yo mucho para ir guardando, o intentando conseguir otros créditos más favorables, que me permitiesen cancelar mis tarjetas. A día de hoy, ya las he conseguido cancelar.*
