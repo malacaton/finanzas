@@ -2,11 +2,11 @@
 **App para gestión de finanzas (créditos y pagos) personales**
 
 ## DESCRIPCIÓN GENERAL ##
-En principio, creo que yo cifraría los importes de los recibos y créditos, por privacidad. Los administradores del sistema no deberían saber los datos económicos de los usuarios, igual que la clave también se almacenará cifrada. Deberían descifrarse al mostrarse. Estudiar este caso... Voy a marcar con un (¿HIDE?) los campos sensibles de ser cifrados.
+La base de datos será MySQL, por no incurrir en gastos de licencias ya que es un proyecto personal.
 
-La clave puede utilizar un cifrado en un solo sentido, tipo un SHA-256 (no hace falta irse a 512) o bcrypt.
+La clave también se almacenará como un hash, ya que no podrá descifrarse. Cada vez que el usuario se valide, se generará un hash con la clave insertada, y se contrastará con el hash almacenado. Puede utilizar un cifrado en un solo sentido, tipo un SHA-256 (no hace falta irse a 512) o bcrypt.
 
-Por el contrario, los datos económicos se deberían cifrar con otro sistema que sí permita descifrado. Lo mejor creo que podría ser utilizar el guid del usuario para cifrar o descifrar sus datos. Esto hace que el administrador mañoso también pudiese descibrarlo, pero ya es una muestra de capacidad, y de que pensamos en esas cosas. Siendo así, si algún día mostramos esto a alguien podríamos decir que eso no es privado al 100%, pero que en un planteamiento profesional se estudiaría mejor. O estudiarlo mejor, de entrada, y hacerlo ya - XDD.
+Cifraremos también los datos económicos con otro sistema que sí permita descifrado (marco los campos a cifrar con (HIDE). Lo mejor creo que podría ser utilizar el guid del usuario para cifrar o descifrar sus datos. No obsante, como esto es una práctica de habilidades, Esto hace que el administrador mañoso también pudiese descibrarlo, pero ya es una muestra de capacidad, y de que pensamos en esas cosas. Siendo así, si algún día mostramos esto a alguien podríamos decir que eso no es privado al 100%, pero que en un planteamiento profesional se estudiaría mejor. O estudiarlo mejor, de entrada, y hacerlo ya - XDD.
 
 ## SEGURIDAD ##
 Se autenticará mediante JWT. También tendrá un sencillo sistema de Roles, que en principio solo se usará para saber si el usuario es de tipo **Administrador** o **Usuario**. En caso de que el usuario validado sea de tipo **Administrador**, debería tener acceso a la gestión de usuarios, pero no a las pantallas de gestión de datos financieros. El tipo **Usuario**, por contra, no tendrá acceso a la gestión de usuarios, pero sí a las pantallas de gestión financiera, mostrando solamente los datos que le pertenecen.
@@ -31,6 +31,7 @@ Se autenticará mediante JWT. También tendrá un sencillo sistema de Roles, que
   - banco_id (fk)
   - concepto
   - capital (¿HIDE?)
+  - en_cirbe (bit, default 0)
   - importe_recibo (¿HIDE?)
   - tipo_interes (nvarchar)
   - dia_pago
