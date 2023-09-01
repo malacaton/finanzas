@@ -25,7 +25,7 @@ La contraseña para hashear los passwords
 - banks
   - id (pk)
   - user_id (fk)
-  - banco		
+  - bank_name		
 		
 - credits
   - id (pk)
