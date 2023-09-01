@@ -11,63 +11,64 @@ Se autenticará mediante JWT. También tendrá un sencillo sistema de Roles, que
 
 ## BD ##
 La base de datos será MySQL, por no incurrir en gastos de licencias ya que es un proyecto personal. La BD se llamará **finanzas**, y estará codificada con **utf8_general_ci**.
+La contraseña para hashear los passwords
 
 ## TABLAS ##
-- usuarios
+- users
   - id (guid)
-  - nombre
-  - user
-  - pass (hash)
-  - rol (Administrador o Usuario)
+  - name
+  - username
+  - password (hash creado con SHA, con SHA('contraseña') en MySQL. El SHA ocupa 40 caracteres, y no se puede decompilar)
+  - role (Administrador o Usuario)
   - *... y lo que sea necesario. Lo estudiaremos*
 
-- bancos
+- banks
   - id (pk)
   - user_id (fk)
   - banco		
 		
-- creditos
+- credits
   - id (pk)
   - user_id (fk)
-  - banco_id (fk)
-  - concepto
+  - bank_id (fk)
+  - concept
   - capital (¿HIDE?)
-  - en_cirbe (bit, default 0)
-  - importe_recibo (¿HIDE?)
-  - tipo_interes (nvarchar)
-  - dia_pago
-  - fecha_ultimo_pago
-  - porcentaje_amortizacion_total
-  - porcentaje_amortizacion_parcial
-  - notas
-  - cuadro_amortizacion_creado (bit, default false)
+  - on_cirbe (bit, default 0)
+  - amount (¿HIDE?)
+  - rate (nvarchar)
+  - payment_day
+  - last_payment_date
+  - totatl_amortization_rate
+  - partial_amortization_rate
+  - note
+  - amortization_table_created (bit, default false)
 	
-  *Cuando se cree un crédito, el valor 'cuadro_amortizacion_creado' será 0 (0=false en SQL). La pantalla debería permitirte ir a crear un cuadro de amortización en pantalla, que podrá modificar este dato.*
+  *Cuando se cree un crédito, el valor 'amortization_table_created' será 0 (0=false en SQL). La pantalla debería permitirte ir a crear un cuadro de amortización en pantalla, que podrá modificar este dato.*
 	
-  *Esta pantalla debería permitir poner datos del crédito, en principio el día del primer pago, capital inicial e interés a aplicar, y al dar llamar a la acción creará registro en una subtabla. Estos registros serán editables, en principio creo que solo el importe del recibo, por el usuario, por si es necesario cuadrar algún dato (redondeos en céntimos o algo así). Al aceptar estos datos, se almacenarán en la tabla 'amortizaciones_creditos', y se cambiará el valor de 'cuadro_amortizacion_creado' a 1.*
+  *Esta pantalla debería permitir poner datos del crédito, en principio el día del primer pago, capital inicial e interés a aplicar, y al dar llamar a la acción creará registro en una subtabla. Estos registros serán editables, en principio creo que solo el importe del recibo, por el usuario, por si es necesario cuadrar algún dato (redondeos en céntimos o algo así). Al aceptar estos datos, se almacenarán en la tabla 'amortization_tables', y se cambiará el valor de 'cuadro_amortizacion_creado' a 1.*
 	
-- amortizaciones_creditos
+- amortization_tables
   - id (pk)
   - user_id (fk)
-  - credito_id (fk)
-  - fecha_pago
-  - fecha_pago_real (!= nulo indica "pagado")
+  - credit_id (fk)
+  - payment_date
+  - real_payment_date (!= nulo indica "pagado")
   - capital (¿HIDE?)
-  - interes (¿HIDE?)
-  - importe (¿HIDE?) (se calculado inicialmente con cap. + int. y luego se podrá ajustar si falla algún céntimo)
+  - rate (¿HIDE?)
+  - amount (¿HIDE?) (se calculado inicialmente con cap. + int. y luego se podrá ajustar si falla algún céntimo)
 
-- pagos_recurrentes
+- recurrent payments
   - id (pk)
   - user_id (fk)
-  - banco_id (fk)
-  - concepto
-  - importe_recibo (¿HIDE?)
-  - capital_pendiente (Para tarjetas de crédito. Capital pendiente en la fecha indicada abajo)
-  - fecha_capital_pendiente (Para tarjetas de crédito. Fecha en la que se comprobó el capital pendiente)
-  - dia_pago
-  - meses_entre_pagos (int, default 1)
-  - fecha_ultimo_pago (nullable)
-  - notas	
+  - bank_id (fk)
+  - concept
+  - amount (¿HIDE?)
+  - pending_capital (Para tarjetas de crédito. Capital pendiente en la fecha indicada abajo)
+  - pending_capital_date (Para tarjetas de crédito. Fecha en la que se comprobó el capital pendiente)
+  - payment_date
+  - months_between_payments (int, default 1)
+  - last_payment_date (nullable)
+  - note	
 	
 ## PANTALLAS ##
 - Gestión de usuarios (Administradores): Tabla con todos los usuarios, y su tipo de usuario.
