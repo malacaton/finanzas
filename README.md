@@ -19,7 +19,7 @@ La contraseña para hashear los passwords
   - name (varchar)
   - userName (varchar)
   - passwordHash (varchar, hash creado con BCrypt, que no se puede decompilar)
-  - role (int, 0=admin, 1=user)
+  - role (int, 0=admin, 1=user. El servicio recibirá este parámetro con el string 'admin' o 'user', y se encargará de convertirlo al número apropiado con un enumerable)
   - *... y lo que sea necesario. Lo estudiaremos*
 
 - banks
