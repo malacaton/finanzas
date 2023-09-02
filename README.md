@@ -27,18 +27,17 @@ La contraseña para hashear los passwords
   - user_id (fk)
   - bank_name		
 		
-- credits
+- credits (el usuario se puede obtener relacionando con *> banks.user_id*)
   - id (pk)
-  - user_id (fk)
   - bank_id (fk)
   - concept
+  - appears_on_cirbe (bit, default 0)
   - capital (¿HIDE?)
-  - on_cirbe (bit, default 0)
-  - amount (¿HIDE?)
   - rate (nvarchar)
-  - payment_day
+  - receipt_amount (¿HIDE?)
+  - payment_day (tinyint)
   - last_payment_date
-  - totatl_amortization_rate
+  - total_amortization_rate
   - partial_amortization_rate
   - note
   - amortization_table_created (bit, default false)
@@ -47,22 +46,20 @@ La contraseña para hashear los passwords
 	
   *Esta pantalla debería permitir poner datos del crédito, en principio el día del primer pago, capital inicial e interés a aplicar, y al dar llamar a la acción creará registro en una subtabla. Estos registros serán editables, en principio creo que solo el importe del recibo, por el usuario, por si es necesario cuadrar algún dato (redondeos en céntimos o algo así). Al aceptar estos datos, se almacenarán en la tabla 'amortization_tables', y se cambiará el valor de 'cuadro_amortizacion_creado' a 1.*
 	
-- amortization_tables
+- amortization_tables (el usuario se puede obtener relacionando con *credits > banks.user_id*)
   - id (pk)
-  - user_id (fk)
   - credit_id (fk)
   - payment_date
   - real_payment_date (!= nulo indica "pagado")
   - capital (¿HIDE?)
   - rate (¿HIDE?)
-  - amount (¿HIDE?) (se calculado inicialmente con cap. + int. y luego se podrá ajustar si falla algún céntimo)
+  - receipt_amount (¿HIDE?) (se calculado inicialmente con cap. + int. y luego se podrá ajustar si falla algún céntimo)
 
-- recurrent payments
+- recurrent_payments (el usuario se puede obtener relacionando con *> banks.user_id*)
   - id (pk)
-  - user_id (fk)
   - bank_id (fk)
   - concept
-  - amount (¿HIDE?)
+  - receipt_amount (¿HIDE?)
   - pending_capital (Para tarjetas de crédito. Capital pendiente en la fecha indicada abajo)
   - pending_capital_date (Para tarjetas de crédito. Fecha en la que se comprobó el capital pendiente)
   - payment_date
