@@ -46,7 +46,7 @@ La contraseña para hashear los passwords
 	
   *Esta pantalla debería permitir poner datos del crédito, en principio el día del primer pago, capital inicial e interés a aplicar, y al dar llamar a la acción creará registro en una subtabla. Estos registros serán editables, en principio creo que solo el importe del recibo, por el usuario, por si es necesario cuadrar algún dato (redondeos en céntimos o algo así). Al aceptar estos datos, se almacenarán en la tabla 'amortization_tables', y se cambiará el valor de 'cuadro_amortizacion_creado' a 1.*
 	
-- amortization_tables (el usuario se puede obtener relacionando con *credits > banks.user_id*)
+- amortization_tables (el usuario se puede obtener relacionando con *> credits.bank_id* y el usuario con *> credits > banks.user_id*)
   - id (pk)
   - credit_id (fk)
   - payment_date
