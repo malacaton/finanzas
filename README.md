@@ -18,7 +18,7 @@ La contraseña para hashear los passwords
   - id (int, pk)
   - name (varchar)
   - username (varchar)
-  - password (varchar(49, hash creado con SHA, con SHA('contraseña') en MySQL. El SHA ocupa 40 caracteres, y no se puede decompilar)
+  - password (varchar(40), hash creado con SHA, con SHA('contraseña') en MySQL. El SHA ocupa 40 caracteres, y no se puede decompilar)
   - role (varchar, 'admin' o 'user')
   - *... y lo que sea necesario. Lo estudiaremos*
 
