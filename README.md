@@ -15,7 +15,7 @@ La contraseña para hashear los passwords
 
 ## TABLAS ##
 - users
-  - id (guid)
+  - id (pk)
   - name
   - username
   - password (hash creado con SHA, con SHA('contraseña') en MySQL. El SHA ocupa 40 caracteres, y no se puede decompilar)
