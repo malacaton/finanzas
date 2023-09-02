@@ -15,32 +15,32 @@ La contraseña para hashear los passwords
 
 ## TABLAS ##
 - users
-  - id (pk)
-  - name
-  - username
-  - password (hash creado con SHA, con SHA('contraseña') en MySQL. El SHA ocupa 40 caracteres, y no se puede decompilar)
-  - role (Administrador o Usuario)
+  - id (int, pk)
+  - name (varchar)
+  - username (varchar)
+  - password (varchar(49, hash creado con SHA, con SHA('contraseña') en MySQL. El SHA ocupa 40 caracteres, y no se puede decompilar)
+  - role (varchar, 'admin' o 'user')
   - *... y lo que sea necesario. Lo estudiaremos*
 
 - banks
   - id (pk)
   - user_id (fk)
-  - bank_name		
+  - bank_name (varchar)
 		
 - credits (el usuario se puede obtener relacionando con *> banks.user_id*)
   - id (pk)
   - bank_id (fk)
-  - concept
+  - concept (varchar)
   - appears_on_cirbe (bit, default 0)
-  - capital (¿HIDE?)
-  - rate (nvarchar)
-  - receipt_amount (¿HIDE?)
+  - capital (decimal, ¿HIDE?)
+  - rate (varchar)
+  - receipt_amount (decimal, ¿HIDE?)
   - payment_day (tinyint)
-  - last_payment_date
-  - total_amortization_rate
-  - partial_amortization_rate
-  - note
-  - amortization_table_created (bit, default false)
+  - last_payment_date (date)
+  - total_amortization_rate (decimal)
+  - partial_amortization_rate (decimal)
+  - note (varchar)
+  - amortization_table_created (bit, default 0)
 	
   *Cuando se cree un crédito, el valor 'amortization_table_created' será 0 (0=false en SQL). La pantalla debería permitirte ir a crear un cuadro de amortización en pantalla, que podrá modificar este dato.*
 	
@@ -49,23 +49,23 @@ La contraseña para hashear los passwords
 - amortization_tables (el usuario se puede obtener relacionando con *> credits.bank_id* y el usuario con *> credits > banks.user_id*)
   - id (pk)
   - credit_id (fk)
-  - payment_date
-  - real_payment_date (!= nulo indica "pagado")
-  - capital (¿HIDE?)
-  - rate (¿HIDE?)
-  - receipt_amount (¿HIDE?) (se calculado inicialmente con cap. + int. y luego se podrá ajustar si falla algún céntimo)
+  - payment_date (date)
+  - real_payment_date (date, nullable, != nulo indica "pagado")
+  - capital (decimal, ¿HIDE?)
+  - rate (decimal, ¿HIDE?)
+  - receipt_amount (decimal, ¿HIDE?) (se calculado inicialmente con cap. + int. y luego se podrá ajustar si falla algún céntimo)
 
 - recurrent_payments (el usuario se puede obtener relacionando con *> banks.user_id*)
   - id (pk)
   - bank_id (fk)
-  - concept
-  - receipt_amount (¿HIDE?)
-  - pending_capital (Para tarjetas de crédito. Capital pendiente en la fecha indicada abajo)
-  - pending_capital_date (Para tarjetas de crédito. Fecha en la que se comprobó el capital pendiente)
-  - payment_date
+  - concept (varchar)
+  - receipt_amount (decimal, ¿HIDE?)
+  - pending_capital (decimal) (Para tarjetas de crédito. Capital pendiente en la fecha indicada abajo)
+  - pending_capital_date (date) (Para tarjetas de crédito. Fecha en la que se comprobó el capital pendiente)
+  - payment_date (date)
   - months_between_payments (int, default 1)
-  - last_payment_date (nullable)
-  - note	
+  - last_payment_date (date, nullable)
+  - note (varchar)
 	
 ## PANTALLAS ##
 - Gestión de usuarios (Administradores): Tabla con todos los usuarios, y su tipo de usuario.
